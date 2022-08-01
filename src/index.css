@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color: black; */
+  /* color: white; */
 }
 
 code {
@@ -65,6 +67,12 @@ code {
   font-size: 20px;
   margin-bottom: 5%;
 }
+
+#preview{
+  border: 5px solid black;
+  border-radius: 10px;
+}
+
 
 .formDiv {
   font-size: 20px;

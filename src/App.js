@@ -32,7 +32,6 @@ import { Amplify, API, Storage } from 'aws-amplify';
 import React, { useState, useEffect } from "react";
 import TextareaAutosize from 'react-textarea-autosize';
 
-
 function App({ signOut }) {
   const[cid, setCid] = useState('');
   const[timestamp, setTimestamp] = useState('');
@@ -79,7 +78,7 @@ function App({ signOut }) {
       .catch((error) => console.log("error", error));
     // alert('your file has been uploaded');
     // Show the user a preview
-    document.getElementById('blah').src = window.URL.createObjectURL(file);
+    document.getElementById('preview').src = window.URL.createObjectURL(file);
   }
 
   // For submitting the comment
@@ -233,15 +232,15 @@ function App({ signOut }) {
       },
     },
   };
-
-  const [stretch, setStretch] = useState(false);
-
   const { tokens } = useTheme();
 
+  // For showing the history
+  const [stretch, setStretch] = useState(false);
   async function changeStretch(){
     setStretch(!stretch);
     fetchGobjs();
   }
+
 
   return (
     <>
@@ -256,9 +255,7 @@ function App({ signOut }) {
       <div className='mainContent'>
         {/* Upload Image */}
         <div className='uploadDiv'>
-
         
-
         {/* Inputs */}
         <form onSubmit={Comment}>
 
@@ -278,13 +275,15 @@ function App({ signOut }) {
             </div>
             <Heading level={4}>Comment Image (Optional)</Heading> 
 
-            <img id="blah" alt="your image" width="400" height="400"/>
-            
-            <input
-            type="file"
-            onChange={onChange}
-            className='fileInput'
-            />
+            <div>
+              <img id="preview" alt="your image" width="350" height="350" src="imageupload.jpeg"/>
+              <input
+              type="file"
+              onChange={onChange}
+              className='fileInput'
+              />
+            </div>
+
             <br/>
             <br/>
             <Heading level={4}>Configure Comment Metadata</Heading> 
@@ -361,7 +360,7 @@ function App({ signOut }) {
 
             {/* Submit button */}
             <div className='formDiv'>
-              <Button type='submit'>SUBMIT</Button>
+              <Button type='submit'>Analyze</Button>
             </div>
           </View>
 

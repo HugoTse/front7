@@ -25,7 +25,9 @@ import {
   SwitchField,
   useTheme,
   Divider,
-  ToggleButton
+  ToggleButton,
+  TabItem,
+  Tabs
 } from "@aws-amplify/ui-react";
 
 import { Amplify, API, Auth, Hub, Storage } from 'aws-amplify';
@@ -43,10 +45,16 @@ function App({ signOut }) {
   const[text, setText] = useState('');
   const[ir, setIr] = useState('');
 
+  const[image, setImage] = useState(false);
+  async function changeImage(){
+    setImage(!image);
+  }
   
   // For uploadImage
   async function onChange(e) {
     e.preventDefault();
+    // To set the optional warning
+    changeImage();
     // If there are no files, return
     if (!e.target.files[0]) return
     // Set the variable file to the uploaded file
@@ -245,6 +253,9 @@ function App({ signOut }) {
     setAutotime(!autotime);
   }
 
+  // For tabs
+  const [index, setIndex] = useState(0);
+
   return (
     <>
       <Card
@@ -268,114 +279,132 @@ function App({ signOut }) {
             <Heading level={3}>Social Media Comment Analyzer</Heading> 
             <br/>
 
-            <Heading level={4}><i>Comment Text</i></Heading> 
-            <div className='formDiv'>
-              {/* Text */}
-              <TextareaAutosize
-                  className='responsiveTA input'
-                  placeholder="Input your comment text here..."
-                  onChange={e => setText(e.target.value)}
-                  value={text}
-                />
-            </div>
-            <Heading level={4}><i>Comment Image (Optional)</i></Heading> 
-
-            <img id="preview" alt="your image" width="350" height="350" src="imageupload.jpeg"/>
-            <div>
-              <input
-              type="file"
-              onChange={onChange}
-              className='fileInput'
-              />
-            </div>
-
-            <br/>
-            <br/>
-            <Heading level={4}><i>Configure Comment Metadata</i></Heading> 
-            <div className='formDiv'>
-              {/* Campaign ID */}
-              <input
-                required
-                className='input'
-                onChange={e => setCid(e.target.value)}
-                placeholder="Campaign ID"
-                value={cid}
-              />
-            </div>
-            <div className='formDiv'>
-              <ToggleButton onClick={() => changeAutotime()}>
-                {!autotime? (<>
-                  Click To Use Automatic Timestamp
-                </>):(<>Automatic Timestamp</>)}
-              </ToggleButton>
-            </div>
-            {!autotime? (<>
+              <Tabs currentIndex={index} onChange={(i: number) => setIndex(i)}>
+              <TabItem title="Comment">
+              <br/>
+              <Heading level={4}><i>Comment Text</i></Heading> 
+                <div className='formDiv'>
+                  {/* Text */}
+                  <TextareaAutosize
+                      className='responsiveTA input'
+                      placeholder="Input your comment text here..."
+                      onChange={e => setText(e.target.value)}
+                      value={text}
+                    />
+                </div>
+                <Heading level={4}><i>Comment Image</i></Heading>
+                <img id="preview" alt="your image" width="350" height="350" src="imageupload.jpeg"/>
+                <div>
+                  {image? (<></>):(<>
+                  <Badge variation='info' size='large'>
+                    Note: Uploading an Image is Optional
+                  </Badge></>)}
+                  <input
+                  type="file"
+                  onChange={onChange}
+                  className='fileInput'
+                  />
+                </div>
+              </TabItem>
+              <TabItem title="Metadata">
+              <br/>
+              <Heading level={4}><i>Configure Comment Metadata</i></Heading> 
               <div className='formDiv'>
-              {/* Timestamp */}
-              <input
-                className='input'
-                onChange={e => setTimestamp(e.target.value)}
-                placeholder="Timestamp"
-                value={timestamp}
-              />
-            </div>
-            </>):(<></>)} 
-           
-            <div className='formDiv'>
-              {/* Twitter Handle */}
-              <input
-                required
-                className='input'
-                onChange={e => setThand(e.target.value)}
-                placeholder="Twitter Handle"
-                value={thand}
-              />
-            </div>
-            <div className='formDiv'>
-              {/* First Name */}
-              <input
-                required
-                className='input'
-                onChange={e => setFname(e.target.value)}
-                placeholder="First Name"
-                value={fname}
-              />
-            </div>
-            <div className='formDiv'>
-              {/* Last Name */}
-              <input
-                required
-                className='input'
-                onChange={e => setLname(e.target.value)}
-                placeholder="Last Name"
-                value={lname}
-              />
-            </div>
-            <div className='formDiv'>
-              {/* Date of Birth */}
-              <input
-                required
-                className='input'
-                onChange={e => setDob(e.target.value)}
-                placeholder="Date of Birth"
-                value={dob}
-              />
-            </div>
-            <div className='formDiv'>
-              {/* Region */}
-              <input
-                required
-                className='input'
-                onChange={e => setRegion(e.target.value)}
-                placeholder="Region"
-                value={region}
-              />
-            </div>
+                {/* Campaign ID */}
+                <input
+                  required
+                  className='input'
+                  onChange={e => setCid(e.target.value)}
+                  placeholder="Campaign ID"
+                  value={cid}
+                />
+              </div>
+              <div className='formDiv'>
+                <ToggleButton onClick={() => changeAutotime()}>
+                  {!autotime? (<>
+                    Click Here To Use Automatic Timestamp
+                  </>):(<>Automatic Timestamp</>)}
+                </ToggleButton>
+              </div>
+              {!autotime? (<>
+                <div className='formDiv'>
+                {/* Timestamp */}
+                <input
+                  className='input'
+                  onChange={e => setTimestamp(e.target.value)}
+                  placeholder="Timestamp"
+                  value={timestamp}
+                />
+              </div>
+              </>):(<></>)} 
+            
+              <div className='formDiv'>
+                {/* Twitter Handle */}
+                <input
+                  required
+                  className='input'
+                  onChange={e => setThand(e.target.value)}
+                  placeholder="Twitter Handle"
+                  value={thand}
+                />
+              </div>
+              <div className='formDiv'>
+                {/* First Name */}
+                <input
+                  required
+                  className='input'
+                  onChange={e => setFname(e.target.value)}
+                  placeholder="First Name"
+                  value={fname}
+                />
+              </div>
+              <div className='formDiv'>
+                {/* Last Name */}
+                <input
+                  required
+                  className='input'
+                  onChange={e => setLname(e.target.value)}
+                  placeholder="Last Name"
+                  value={lname}
+                />
+              </div>
+              <div className='formDiv'>
+                {/* Date of Birth */}
+                <input
+                  required
+                  className='input'
+                  onChange={e => setDob(e.target.value)}
+                  placeholder="Date of Birth"
+                  value={dob}
+                />
+              </div>
+              <div className='formDiv'>
+                {/* Region */}
+                <input
+                  required
+                  className='input'
+                  onChange={e => setRegion(e.target.value)}
+                  placeholder="Region"
+                  value={region}
+                />
+              </div>
 
-            {/* Submit button */}
-            <div className='formDiv'>
-              <Button type='submit' variation='primary' size="large">Analyze Comment</Button>
-            </div>
+              {/* Submit button */}
+              <div className='formDiv'>
+                <Button type='submit' variation='primary' size="large">Analyze Comment</Button>
+              </div>
+
+                <Button isFullWidth onClick={() => setIndex(0)}>
+                  Edit Comment
+                </Button>
+              </TabItem>
+            </Tabs>
+
+
+            
+            <br/>
+            <br/>
+            <Button onClick={signOut} style={{backgroundColor: 'pink'}} isFullWidth size='large'>Sign Out</Button>
           </View>
         </form>
         </div>
@@ -387,7 +416,7 @@ function App({ signOut }) {
           <Button className='signOut' 
                   style={{backgroundColor: 'green', color: 'white'}} 
                   size="large" onClick={() => changeStretch()}>
-            {stretch? (<>HIDE HISTORY</>):(<>SHOW HISTORY</>)}
+            {stretch? (<>Hide Historical Sentiment</>):(<>Show Historical Sentiment</>)}
           </Button>
         </div>
 
@@ -449,7 +478,7 @@ function App({ signOut }) {
           </>): (<></>)}
 
         <div className='signOut'>
-          <Button onClick={signOut} style={{backgroundColor: 'pink'}} size='large'>Sign Out</Button>
+          {/* <Button onClick={signOut} style={{backgroundColor: 'pink'}} isFullWidth size='large'>Sign Out</Button> */}
         </div>
       </div>
    

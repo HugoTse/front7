@@ -107,7 +107,7 @@ function App({ signOut }) {
     if(ir == ''){
       // instantiate a request url
       var jsonKey = cid + '_' + timestamp + '_' + thand + '.json'
-      var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v4/submitcomment/20220731s3bucket/input%2F" + jsonKey
+      var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v4/submitcomment/20220731s3bucket/input%2Ftext%2F" + jsonKey
       console.log(url);
       // instantiate a headers object
       var myHeaders = new Headers();
@@ -142,7 +142,7 @@ function App({ signOut }) {
       } else {
       // instantiate a request url
       var jsonKey = cid + '_' + timestamp + '_' + thand + '.json'
-      var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v4/processimage/20220725s3bucket/input%2F" + jsonKey
+      var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v4/processimage/20220731s3bucket/input%2Ftext%2F" + jsonKey
       console.log(url);
       // instantiate a headers object
       var myHeaders = new Headers();
@@ -195,7 +195,7 @@ function App({ signOut }) {
     const headers = {
       "Content-Type": "application, json",
     }
-    const apiResponse = await fetch('https://sku06p2ar3.execute-api.us-west-2.amazonaws.com/v0/read', {headers} )
+    const apiResponse = await fetch('https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v5/read', {headers} )
     const apiResponseJSON = await apiResponse.json()
     const rs = apiResponseJSON.body
     console.log(rs)
@@ -207,7 +207,7 @@ function App({ signOut }) {
       const headers = {
         "Content-Type": "application, json",
       }
-      const apiResponse = await fetch('https://sku06p2ar3.execute-api.us-west-2.amazonaws.com/v0/read', {headers} )
+      const apiResponse = await fetch('https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v5/read', {headers} )
       const apiResponseJSON = await apiResponse.json()
       const rs = apiResponseJSON.body
       console.log("This is rs: " + rs)

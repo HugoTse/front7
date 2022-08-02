@@ -65,12 +65,13 @@ function App({ signOut }) {
     // Log the key
     console.log(imageKey);
     // instantiate a request url
-    var url = "https://ini5trtk7b.execute-api.us-west-2.amazonaws.com/v0/uploadimage/20220725s3bucket/image%2Fraw%2F" + imageKey
+    var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v1/uploadimage/20220731s3bucket/image%2Fraw%2F" + imageKey
     console.log(url);
     // instantiate a headers object
     var myHeaders = new Headers();
     // add content type header to object
     myHeaders.append("Content-Type", "image/*");
+    myHeaders.append("x-api-key", "LC2BLXB9VR31v5e71FWb38AGWmxUkWEz4NxQLX1K");
     // create a JSON object with parameters for API call and store in a variable
     var requestOptions = {
       method: "PUT",
@@ -106,12 +107,13 @@ function App({ signOut }) {
     if(ir == ''){
       // instantiate a request url
       var jsonKey = cid + '_' + timestamp + '_' + thand + '.json'
-      var url = "https://ini5trtk7b.execute-api.us-west-2.amazonaws.com/v2/submitcomment/20220725s3bucket/input%2F" + jsonKey
+      var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v4/submitcomment/20220731s3bucket/input%2F" + jsonKey
       console.log(url);
       // instantiate a headers object
       var myHeaders = new Headers();
       // add content type header to object
       myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("x-api-key", "LC2BLXB9VR31v5e71FWb38AGWmxUkWEz4NxQLX1K");
       var data = JSON.stringify({ "userMetaData" : { campaign_id: cid, 
                                                     timestamp: timestamp,
                                                     twitter_handle: thand,
@@ -140,12 +142,13 @@ function App({ signOut }) {
       } else {
       // instantiate a request url
       var jsonKey = cid + '_' + timestamp + '_' + thand + '.json'
-      var url = "https://ini5trtk7b.execute-api.us-west-2.amazonaws.com/v1/processimage/20220725s3bucket/input%2F" + jsonKey
+      var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v4/processimage/20220725s3bucket/input%2F" + jsonKey
       console.log(url);
       // instantiate a headers object
       var myHeaders = new Headers();
       // add content type header to object
       myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("x-api-key", "LC2BLXB9VR31v5e71FWb38AGWmxUkWEz4NxQLX1K");
       var data = JSON.stringify({ "userMetaData" : { campaign_id: cid, 
                                                     timestamp: timestamp,
                                                     twitter_handle: thand,

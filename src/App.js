@@ -468,6 +468,10 @@ function App({ signOut }) {
                       </TableCell>
                       <TableCell>
                         {record.Sentiment}
+                        {(record.Sentiment==='POSITIVE')? (<>😃</>):(<></>)}
+                        {(record.Sentiment==='MIXED')? (<>😃</>):(<></>)}
+                        {(record.Sentiment==='NEUTRAL')? (<>😐</>):(<></>)}
+                        {(record.Sentiment==='NEGATIVE')? (<>🙁</>):(<></>)}
                       </TableCell>
                     </TableRow>
                     </>

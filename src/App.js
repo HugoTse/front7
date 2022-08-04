@@ -190,11 +190,11 @@ function App({ signOut }) {
     }
     alert("Your comment has been submitted for analysis with the following parameters: \nCampaign ID: " + cid 
     + "\nTimestamp: " + timestamp
-    + "\nTwitter Handle:" + thand
-    + "\nFirst Name:" + fname
-    + "\nLast Name:" + lname
-    + "\nDate of Birth:" + dob
-    + "\nRegion" + region );
+    + "\nTwitter Handle: " + thand
+    + "\nFirst Name: " + fname
+    + "\nLast Name: " + lname
+    + "\nDate of Birth: " + dob
+    + "\nRegion: " + region );
     setCid('');
     setTimestamp('');
     setThand('');

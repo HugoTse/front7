@@ -91,6 +91,17 @@ function App({ signOut }) {
     document.getElementById('preview').src = window.URL.createObjectURL(file);
   }
 
+  // UUID
+  function create_UUID(){
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
+
   // For submitting the comment
   async function Comment(e) {
     e.preventDefault();
@@ -103,10 +114,11 @@ function App({ signOut }) {
                 ', Region: ' + region,
                 ', Text: ' + text,
                 ', Image Reference: ' + ir);
+    var u = create_UUID();
     // If the comment doesn't include an image
     if(ir == ''){
       // instantiate a request url
-      var jsonKey = cid + '_' + timestamp + '_' + thand + '.json'
+      var jsonKey = u + cid.replace(/\s/g, '') + '_' + timestamp.replace(/\s/g, '') + '_' + thand.replace(/\s/g, '') + '.json'
       var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v4/submitcomment/20220731s3bucket/input%2Ftext%2F" + jsonKey
       console.log(url);
       // instantiate a headers object
@@ -141,7 +153,7 @@ function App({ signOut }) {
       // If the comment includes an image
       } else {
       // instantiate a request url
-      var jsonKey = cid + '_' + timestamp + '_' + thand + '.json'
+      var jsonKey =  u + cid.replace(/\s/g, '') + '_' + timestamp.replace(/\s/g, '') + '_' + thand.replace(/\s/g, '') + '.json'
       var url = "https://huarvr0fal.execute-api.us-west-2.amazonaws.com/v4/processimage/20220731s3bucket/input%2Ftext%2F" + jsonKey
       console.log(url);
       // instantiate a headers object
@@ -176,6 +188,13 @@ function App({ signOut }) {
         .then((result) => alert(JSON.parse(result).body))
         .catch((error) => console.log("error", error));
     }
+    alert("Your comment has been submitted for analysis with the following parameters: \nCampaign ID: " + cid 
+    + "\nTimestamp: " + timestamp
+    + "\nTwitter Handle:" + thand
+    + "\nFirst Name:" + fname
+    + "\nLast Name:" + lname
+    + "\nDate of Birth:" + dob
+    + "\nRegion" + region );
     setCid('');
     setTimestamp('');
     setThand('');
@@ -292,7 +311,8 @@ function App({ signOut }) {
                       className='responsiveTA input'
                       placeholder="Input your comment text here..."
                       onChange={e => setText(e.target.value)}
-                      value={text}
+                      // value={text}
+                      defaultValue=''
                     />
                 </div>
                 <Heading level={4}><i>Comment Image</i></Heading>
@@ -309,17 +329,18 @@ function App({ signOut }) {
                   />
                 </div>
               </TabItem>
-              <TabItem title="Metadata">
+              <TabItem title="Metadata [Analyze Comment Here]">
               <br/>
               <Heading level={4}><i>Configure Comment Metadata</i></Heading> 
+              <br/>
               <div className='formDiv'>
                 {/* Campaign ID */}
                 <input
-                  required
                   className='input'
                   onChange={e => setCid(e.target.value)}
-                  placeholder="Campaign ID"
-                  value={cid}
+                  defaultValue=''
+                  placeholder='Campaign ID'
+                  // value={cid}
                 />
               </div>
               <div className='formDiv'>
@@ -336,7 +357,7 @@ function App({ signOut }) {
                   className='input'
                   onChange={e => setTimestamp(e.target.value)}
                   placeholder="Timestamp"
-                  value={timestamp}
+                  // value={timestamp}
                 />
               </div>
               </>):(<></>)} 
@@ -344,51 +365,51 @@ function App({ signOut }) {
               <div className='formDiv'>
                 {/* Twitter Handle */}
                 <input
-                  required
                   className='input'
                   onChange={e => setThand(e.target.value)}
                   placeholder="Twitter Handle"
-                  value={thand}
+                  defaultValue=''
+                  // value={thand}
                 />
               </div>
               <div className='formDiv'>
                 {/* First Name */}
                 <input
-                  required
                   className='input'
                   onChange={e => setFname(e.target.value)}
                   placeholder="First Name"
-                  value={fname}
+                  defaultValue=''
+                  // value={fname}
                 />
               </div>
               <div className='formDiv'>
                 {/* Last Name */}
                 <input
-                  required
                   className='input'
                   onChange={e => setLname(e.target.value)}
                   placeholder="Last Name"
-                  value={lname}
+                  defaultValue=''
+                  // value={lname}
                 />
               </div>
               <div className='formDiv'>
                 {/* Date of Birth */}
                 <input
-                  required
                   className='input'
                   onChange={e => setDob(e.target.value)}
                   placeholder="Date of Birth"
-                  value={dob}
+                  defaultValue=''
+                  // value={dob}
                 />
               </div>
               <div className='formDiv'>
                 {/* Region */}
                 <input
-                  required
                   className='input'
                   onChange={e => setRegion(e.target.value)}
                   placeholder="Region"
-                  value={region}
+                  defaultValue=''
+                  // value={region}
                 />
               </div>
 
@@ -396,15 +417,16 @@ function App({ signOut }) {
               <div className='formDiv'>
                 <Button type='submit' variation='primary' size="large">Analyze Comment</Button>
               </div>
-
+                <br/>
+                <br/>
                 <Button isFullWidth onClick={() => setIndex(0)}>
                   Edit Comment
                 </Button>
               </TabItem>
             </Tabs>
 
-
-            
+            <br/>
+            <br/>
             <br/>
             <br/>
             <Button onClick={signOut} style={{backgroundColor: 'pink'}} isFullWidth size='large'>Sign Out</Button>
@@ -419,7 +441,7 @@ function App({ signOut }) {
           <Button className='signOut' 
                   style={{backgroundColor: 'green', color: 'white'}} 
                   size="large" onClick={() => changeStretch()}>
-            {stretch? (<>Hide Historical Sentiment</>):(<>Show Historical Sentiment</>)}
+            {stretch? (<>Hide Historical Sentiment</>):(<>Fetch Historical Sentiment</>)}
           </Button>
         </div>
 
@@ -467,11 +489,11 @@ function App({ signOut }) {
                         {record.Text}
                       </TableCell>
                       <TableCell>
-                        {record.Sentiment}
-                        {(record.Sentiment==='POSITIVE')? (<>😃</>):(<></>)}
-                        {(record.Sentiment==='MIXED')? (<>😃</>):(<></>)}
-                        {(record.Sentiment==='NEUTRAL')? (<>😐</>):(<></>)}
-                        {(record.Sentiment==='NEGATIVE')? (<>🙁</>):(<></>)}
+                        <b>{record.Sentiment}</b>
+                        {(record.Sentiment==='POSITIVE')? (<><div style={{fontSize: 40}}>😃</div></>):(<></>)}
+                        {(record.Sentiment==='MIXED')? (<><div style={{fontSize: 40}}>🤔</div></>):(<></>)}
+                        {(record.Sentiment==='NEUTRAL')? (<><div style={{fontSize: 40}}>😐</div></>):(<></>)}
+                        {(record.Sentiment==='NEGATIVE')? (<><div style={{fontSize: 40}}>🙁</div></>):(<></>)}
                       </TableCell>
                     </TableRow>
                     </>
